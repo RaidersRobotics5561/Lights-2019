@@ -22,10 +22,7 @@ typedef enum
 
 typedef enum
 {
-  
-  LED_Color_Red, 
-  LED_Color_Sand,
-  LED_Color_Sandstorm,
+  LED_Color_Red,
   LED_Color_Blue,
   LED_Color_Green,
   LED_Color_White,
@@ -35,6 +32,10 @@ typedef enum
   LED_Color_Orange,
   LED_Color_OrangeRed,
   LED_Color_Aqua,
+  LED_Color_Sand,
+  LED_Color_SandstormB,
+  LED_Color_SandstormR,
+  LED_Color_Ping,
   LED_Color_Duo,     // Alternate Red and Blue
   LED_Color_BlinkR,  // Right Blinker
   LED_Color_BlinkL,  // Left Blinker
@@ -94,11 +95,12 @@ const bool C_InputConfig[LED_ModeSz][InputChanSz] =
    { true,      true,      true,      true  } /*Mode 15*/
   };
 
-const float K_DelayBetweenUpdate = 5;       // This is the delay between brightness updates, in milliseconds
-const int   K_LED_MaxBrightness =  255;     // This is the highest brightness of the leds, should not be higher than 255
-const int   K_LED_MinBrightness =  1;       // This is the lowest brightness of the leds, should not be less than 0
-const float K_Debounce =           50;      // This is the amount of time the input signal has to be high in order to determine that the input actually changed (milliseconds)
-const int   K_PulseCounts =        1;       // This is the number of pulse counts befoe switching to the next color (really only useful for multi color mode...)
+const float K_DelayBetweenUpdate  = 5;       // This is the delay between brightness updates, in milliseconds
+const float K_RB_Delay            = 22;       // Delay between update for Rainbow Light Change
+const int   K_LED_MaxBrightness   = 255;     // This is the highest brightness of the leds, should not be higher than 255
+const int   K_LED_MinBrightness   = 1;       // This is the lowest brightness of the leds, should not be less than 0
+const float K_Debounce            = 50;      // This is the amount of time the input signal has to be high in order to determine that the input actually changed (milliseconds)
+const int   K_PulseCounts         = 1;       // This is the number of pulse counts befoe switching to the next color (really only useful for multi color mode...)
 const float K_ShiftTime[LED_ModeSz] =       // This is the delay between color shifts for the trace mode (milliseconds)
   {
   25, /* Mode0 */
@@ -141,22 +143,21 @@ const int   K_LightSpacing[LED_ModeSz] =    // This is the spacing between light
 
 const int K_LightSettings[LED_ModeSz][LED_ConfigSz] =
   {
-  /* Color                      Fade   HalfOn   Trace */
-   { int(LED_Color_Sandstorm),       0,      0,       1 }, /* Mode0 - This should remain the default/off condition */
-   { int(LED_Color_Orange),     0,      1,       1 }, /* Mode1 - Connect to Rio */
-   { int(LED_Color_Duo),        0,      0,       0 }, /* Mode2 - */
-   { int(LED_Color_Blue),       0,      1,       0 }, /* Mode3 - */
-   { int(LED_Color_Blue),       0,      1,       1 }, /* Mode4 */
-   { int(LED_Color_Blue),       0,      0,       0 }, /* Mode5 */
-   { int(LED_Color_Blue),       1,      0,       0 }, /* Mode6 */
-   { int(LED_Color_Red),        0,      1,       0 }, /* Mode7 */
-   { int(LED_Color_Red),        0,      1,       1 }, /* Mode8 */
-   { int(LED_Color_Red),        0,      0,       0 }, /* Mode9 */
-   { int(LED_Color_Red),        1,      0,       0 }, /* Mode10 */
-   { int(LED_Color_Rainbow),    0,      0,       1 }, /* Mode11 */
-   { int(LED_Color_BlinkL),     10,     0,       0 }, /* Mode12 */
-   { int(LED_Color_BlinkR),     10,     0,       0 }, /* Mode13 */
-   { int(LED_Color_Aqua),       0,      0,       0 }, /* Mode14 */
-   { int(LED_Color_White),      0,      1,       1 }  /* Mode15 */
+  /* Color                        Fade   HalfOn   Trace */
+   { int(LED_Color_Orange),       0,      0,       0}, /* Mode0 - This should remain the default/off condition - Not connected to anything */
+   { int(LED_Color_Red),          0,      1,       0 }, /* Mode1 - Connect to Rio */
+   { int(LED_Color_Duo),          0,      0,       0 }, /* Mode2 - Connet to Rio and Pi*/
+   { int(LED_Color_SandstormR),   3,      0,       1 }, /* Mode3 - Sandstorm Red Alliance*/
+   { int(LED_Color_SandstormB),   3,      0,       1 }, /* Mode4 - Sandstrom Blue Alliance*/
+   { int(LED_Color_Red),          0,      0,       0 }, /* Mode5 - Teleop Red Alliance*/
+   { int(LED_Color_Blue),         0,      0,       0 }, /* Mode6 - Teleop Blue Alliance*/
+   { int(LED_Color_Green),        0,      0,       0 }, /* Mode7 - Override Green*/
+   { int(LED_Color_Ping),         0,      0,       0 }, /* Mode8 - Endgame Raise*/
+   { int(LED_Color_Rainbow),      0,      0,       0 }, /* Mode9 - Endgame Drive*/
+   { int(LED_Color_Rainbow),      6,      0,       1 }, /* Mode10 - Endgame Done*/
+   { int(LED_Color_Rainbow),      6,      0,       1 }, /* Mode11 - Unused*/
+   { int(LED_Color_BlinkL),       10,     0,       0 }, /* Mode12 - Unused*/
+   { int(LED_Color_BlinkR),       10,     0,       0 }, /* Mode13 - Unused*/
+   { int(LED_Color_Aqua),         0,      0,       0 }, /* Mode14 - Unused*/
+   { int(LED_Color_White),        0,      1,       1 }  /* Mode15 - Unused*/
   };
-
